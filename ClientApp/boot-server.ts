@@ -28,7 +28,7 @@ export default createServerRenderer(params => {
         });
 
         return requestZone.run<Promise<string>>(() => platform.serializeModule(AppModule)).then(html => {
-            resolve({ html: html });
+            resolve({ html: html } as RenderToStringResult);
         }, reject);
     });
 });
