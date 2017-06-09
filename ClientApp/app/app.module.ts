@@ -13,6 +13,7 @@ import { HomeComponent } from './components/home/home.component';
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { VehicleFormComponent } from './components/vehicle-form/vehicle-form.component';
 import { VehicleListComponent } from './components/vehicle-list/vehicle-list.component';
+import { ViewVehicleComponent } from './components/view-vehicle/view-vehicle.component';
 import { VehicleService } from './services/vehicle.service';
 
 @NgModule({
@@ -26,19 +27,21 @@ import { VehicleService } from './services/vehicle.service';
     HomeComponent,
     VehicleFormComponent,
     VehicleListComponent,
+    ViewVehicleComponent,
   ],
   imports: [
     UniversalModule, // Must be first import. This automatically imports BrowserModule, HttpModule, and JsonpModule too.
     ToastyModule.forRoot(),
     RouterModule.forRoot([
       { path: '', redirectTo: 'vehicles', pathMatch: 'full' },
-      { path: 'home', component: HomeComponent },
       { path: 'vehicles/new', component: VehicleFormComponent },
-      { path: 'vehicles/:id', component: VehicleFormComponent },
+      { path: 'vehicles/edit/:id', component: VehicleFormComponent },
+      { path: 'vehicles/:id', component: ViewVehicleComponent },
       { path: 'vehicles', component: VehicleListComponent },
+      { path: 'home', component: HomeComponent },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
-      { path: '**', redirectTo: 'vehicles' },
+      { path: '**', redirectTo: 'home' },
     ]),
     FormsModule,
   ],
