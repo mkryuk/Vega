@@ -92,6 +92,7 @@ export class VehicleFormComponent implements OnInit {
     } else {
       delete this.vehicle.id;
       this.vehicleService.create(this.vehicle)
+        // tslint:disable-next-line:no-console
         .subscribe((x) => console.log(x));
     }
   }

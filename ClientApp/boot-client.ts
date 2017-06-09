@@ -1,13 +1,17 @@
 import 'angular2-universal-polyfills/browser';
+import 'bootstrap';
+
 import { enableProdMode } from '@angular/core';
 import { platformUniversalDynamic } from 'angular2-universal';
 import { AppModule } from './app/app.module';
-import 'bootstrap';
-const rootElemTagName = 'app'; // Update this if you change your root component selector
 
+const rootElemTagName = 'app'; // Update this if you change your root component selector
 // Enable either Hot Module Reloading or production mode
+// tslint:disable-next-line:no-string-literal
 if (module['hot']) {
+    // tslint:disable-next-line:no-string-literal
     module['hot'].accept();
+    // tslint:disable-next-line:no-string-literal
     module['hot'].dispose(() => {
         // Before restarting the app, we create a new root element and dispose the old one
         const oldRootElem = document.querySelector(rootElemTagName);

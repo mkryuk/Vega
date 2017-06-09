@@ -1,16 +1,19 @@
 {
-    "version": "0.1.0",
+  "version": "0.1.0",
+  "tasks": [{
+    "command": "gulp",
+    "isShellCommand": true,
+    "taskName": "tslint",
+    "args": ["tslint"],
+    "problemMatcher": "$tslint5"
+  }, {
     "command": "dotnet",
     "isShellCommand": true,
-    "args": [],
-    "tasks": [
-        {
-            "taskName": "build",
-            "args": [
-                "${workspaceRoot}/Vega.csproj"
-            ],
-            "isBuildCommand": true,
-            "problemMatcher": "$msCompile"
-        }
-    ]
+    "taskName": "build",
+    "args": [
+      "build", "${workspaceRoot}/Vega.csproj"
+    ],
+    "isBuildCommand": true,
+    "problemMatcher": "$msCompile"
+  }]
 }
