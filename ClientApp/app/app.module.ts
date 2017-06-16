@@ -1,10 +1,14 @@
 import { ErrorHandler, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { BrowserXhr } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { UniversalModule } from 'angular2-universal';
 import { ToastyModule } from 'ng2-toasty';
 import { AppErrorHandler } from './app.error-handler';
 import { PaginationComponent } from './components/shared/pagination.component';
+import { BrowserXhrWithProgress } from './services/browser.xhr.progress';
+import { PhotoService } from './services/photo.service';
+import { ProgressService } from './services/progress.service';
 
 import { AppComponent } from './components/app/app.component'
 import { CounterComponent } from './components/counter/counter.component';
@@ -47,7 +51,10 @@ import { VehicleService } from './services/vehicle.service';
   ],
   providers: [
     { provide: ErrorHandler, useClass: AppErrorHandler },
+    { provide: BrowserXhr, useClass: BrowserXhrWithProgress },
     VehicleService,
+    PhotoService,
+    ProgressService,
   ],
 })
 export class AppModule {
