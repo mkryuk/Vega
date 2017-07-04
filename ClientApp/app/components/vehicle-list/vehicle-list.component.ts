@@ -1,4 +1,5 @@
 import { Component, NgZone, OnInit } from '@angular/core';
+import { AuthService } from './../../services/auth.service';
 import { VehicleService } from './../../services/vehicle.service';
 import { KeyValuePair, Vehicle } from './../models/vehicle';
 
@@ -26,7 +27,7 @@ export class VehicleListComponent implements OnInit {
     { title: "Contact Name", key: "contactName", isSortable: true },
   ];
 
-  constructor(private vehicleService: VehicleService, private ngZone: NgZone) { }
+  constructor(private vehicleService: VehicleService, private auth: AuthService) { }
 
   public ngOnInit() {
     this.vehicleService.getMakes()

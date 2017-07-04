@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using vega.Persistence;
 using vega.Core;
 using vega.Core.Models;
+using vega.Controllers;
 
 namespace WebApplicationBasic
 {
@@ -39,6 +40,9 @@ namespace WebApplicationBasic
       services.AddScoped<IUnitOfWork, UnitOfWork>();
       services.AddDbContext<VegaDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
       services.AddAutoMapper();
+      services.AddAuthorization(options => {
+        options.AddPolicy(AppPolicies.RequireAdminRole, policy => policy.RequireClaim("https://vega.com/roles", "Admin"));
+      });
       // Add framework services.
       services.AddMvc();
     }
@@ -63,6 +67,14 @@ namespace WebApplicationBasic
       }
 
       app.UseStaticFiles();
+
+      var options = new JwtBearerOptions
+      {
+        Audience = "tmw29cgnYiToVzd2NQ4SFEe1iwAcE64R",
+        Authority = "https://mkryuk.eu.auth0.com/"
+      };
+      app.UseJwtBearerAuthentication(options);
+
 
       app.UseMvc(routes =>
       {

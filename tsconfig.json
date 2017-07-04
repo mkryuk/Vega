@@ -1,12 +1,13 @@
 {
   "compilerOptions": {
-    "moduleResolution": "node",
-    "target": "es5",
-    "sourceMap": true,
-    "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "skipDefaultLibCheck": true,
+    "experimentalDecorators": true,
     "lib": [ "es6", "dom" ],
+    "moduleResolution": "node",
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "target": "es5",
     "types": [ "node" ]
   },
   "exclude": [ "bin", "node_modules" ],

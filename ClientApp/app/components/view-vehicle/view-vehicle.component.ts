@@ -1,11 +1,18 @@
 import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
+import { BrowserXhr } from '@angular/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastyService } from 'ng2-toasty';
+import { AuthService } from './../../services/auth.service';
+import { BrowserXhrWithProgress } from './../../services/browser.xhr.progress';
 import { PhotoService } from './../../services/photo.service';
 import { ProgressService } from './../../services/progress.service';
 import { VehicleService } from './../../services/vehicle.service';
 
 @Component({
+  providers: [
+    { provide: BrowserXhr, useClass: BrowserXhrWithProgress },
+    ProgressService,
+  ],
   templateUrl: 'view-vehicle.component.html',
 })
 export class ViewVehicleComponent implements OnInit {
@@ -16,6 +23,7 @@ export class ViewVehicleComponent implements OnInit {
   @ViewChild("fileInput") private fileInput: ElementRef;
 
   constructor(
+    private auth: AuthService,
     private route: ActivatedRoute,
     private router: Router,
     private toasty: ToastyService,
