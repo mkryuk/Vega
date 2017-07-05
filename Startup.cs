@@ -24,8 +24,14 @@ namespace WebApplicationBasic
       var builder = new ConfigurationBuilder()
           .SetBasePath(env.ContentRootPath)
           .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-          .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-          .AddEnvironmentVariables();
+          .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+      if (env.IsDevelopment())
+      {
+        // add %APPDATA%\Microsoft\UserSecrets\vega-project\secrets.json to config manager
+        // it will override appsettings.json config
+        builder = builder.AddUserSecrets<Startup>();
+      }
+      builder = builder.AddEnvironmentVariables();
       Configuration = builder.Build();
     }
 
@@ -42,7 +48,8 @@ namespace WebApplicationBasic
       services.AddTransient<IPhotoStorage, FileSystemPhotoStorage>();
       services.AddDbContext<VegaDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
       services.AddAutoMapper();
-      services.AddAuthorization(options => {
+      services.AddAuthorization(options =>
+      {
         options.AddPolicy(AppPolicies.RequireAdminRole, policy => policy.RequireClaim("https://vega.com/roles", "Admin"));
       });
       // Add framework services.
