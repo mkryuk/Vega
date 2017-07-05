@@ -38,6 +38,8 @@ namespace WebApplicationBasic
       services.AddScoped<IVehicleRepository, VehicleRepository>();
       services.AddScoped<IPhotoRepository, PhotoRepository>();
       services.AddScoped<IUnitOfWork, UnitOfWork>();
+      services.AddTransient<IPhotoService, PhotoService>();
+      services.AddTransient<IPhotoStorage, FileSystemPhotoStorage>();
       services.AddDbContext<VegaDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
       services.AddAutoMapper();
       services.AddAuthorization(options => {

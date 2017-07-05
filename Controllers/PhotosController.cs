@@ -19,19 +19,24 @@ namespace vega.Controllers
   {
     private readonly IHostingEnvironment host;
     private readonly IMapper autoMapper;
-    private readonly IUnitOfWork uow;
     private readonly IVehicleRepository repository;
     private readonly PhotoSettings photoSettings;
     private readonly IPhotoRepository photoRepository;
-    public PhotosController(IHostingEnvironment host, IMapper autoMapper, IVehicleRepository vehicleRepository, IPhotoRepository photoRepository, IUnitOfWork uow, IOptionsSnapshot<PhotoSettings> options)
+    private readonly IPhotoService photoService;
+    public PhotosController(
+      IHostingEnvironment host, 
+      IMapper autoMapper, 
+      IVehicleRepository vehicleRepository, 
+      IPhotoRepository photoRepository, 
+      IOptionsSnapshot<PhotoSettings> options,
+      IPhotoService photoService)
     {
       this.photoRepository = photoRepository;
       this.photoSettings = options.Value;
-      this.uow = uow;
       this.repository = vehicleRepository;
       this.autoMapper = autoMapper;
       this.host = host;
-
+      this.photoService = photoService;
     }
     [HttpGet]
     public async Task<IEnumerable<PhotoResource>> GetPhotos(int vehicleId)
@@ -65,23 +70,8 @@ namespace vega.Controllers
       {
         return BadRequest("File type not acceptable");
       }
-
       var uploadFolderPath = Path.Combine(this.host.WebRootPath, "uploads");
-      if (!Directory.Exists(uploadFolderPath))
-      {
-        Directory.CreateDirectory(uploadFolderPath);
-      }
-      var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-      var filePath = Path.Combine(uploadFolderPath, fileName);
-
-      using (var stream = new FileStream(filePath, FileMode.Create))
-      {
-        await file.CopyToAsync(stream);
-      }
-
-      var photo = new Photo { FileName = fileName };
-      vehicle.Photos.Add(photo);
-      await uow.CompleteAsync();
+      var photo = await photoService.UploadPhoto(vehicle, file, uploadFolderPath);
       return Ok(Mapper.Map<Photo, PhotoResource>(photo));
     }
   }

@@ -2,6 +2,7 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserXhr } from '@angular/http';
 import { RouterModule } from '@angular/router';
+import {ChartModule} from 'angular2-chartjs';
 import { AUTH_PROVIDERS } from 'angular2-jwt/angular2-jwt';
 import { UniversalModule } from 'angular2-universal';
 import { ToastyModule } from 'ng2-toasty';
@@ -55,6 +56,7 @@ import { VehicleService } from './services/vehicle.service';
       { path: '**', redirectTo: 'home' },
     ]),
     FormsModule,
+    ChartModule,
   ],
   providers: [
     { provide: ErrorHandler, useClass: AppErrorHandler },

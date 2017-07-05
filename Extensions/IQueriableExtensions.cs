@@ -8,6 +8,15 @@ namespace vega.Extensions
 {
   public static class IQueriableExtensions
   {
+
+    public static IQueryable<Vehicle> ApplyFiltering(this IQueryable<Vehicle> query, VehicleQuery queryObj)
+    {
+      if (queryObj.MakeId.HasValue)
+      {
+        query = query.Where(v => v.Model.MakeId == queryObj.MakeId.Value);
+      }
+      return query;
+    }
     public static IQueryable<T> ApplyOrdering<T>(this IQueryable<T> query, IQueryObject queryObj, Dictionary<string, Expression<Func<T, object>>> columnMap)
     {
       if (String.IsNullOrWhiteSpace(queryObj.SortBy) || !columnMap.ContainsKey(queryObj.SortBy))
@@ -21,7 +30,8 @@ namespace vega.Extensions
 
     public static IQueryable<T> ApplyPaging<T>(this IQueryable<T> query, IQueryObject queryObj)
     {
-      if(queryObj.Page <= 0) {
+      if (queryObj.Page <= 0)
+      {
         queryObj.Page = 1;
       }
       if (queryObj.PageSize <= 0)
